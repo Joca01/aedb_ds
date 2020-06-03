@@ -21,7 +21,15 @@ class HashTable(Dictionary):
     def is_full(self):
         return self.num_elements == self.array_size
 
-    def get(self, k): pass
+    def get(self, k): 
+        if not has_key():
+            raise NoSuchElementException()
+        else:
+            idx = self.table[self.hashfunction(k)]
+            for _ in range(self.size()):
+                node = idx.iterator().next()
+                if node.get_element().get_key() == k:
+                    return node.get_element().get_value()
 
     def insert(self, k, v):
         # Check if it has key
@@ -38,15 +46,47 @@ class HashTable(Dictionary):
         # Update the number of elements
         self.num_elements += 1    
 
-    def update(self, k, v): pass
+    def update(self, k, v): 
+        if not has_key():
+            raise NoSuchElementException()
+        
+        else:
+            idx = self.table[self.hashfunction(k)]        
+            for _ in range(self.size()):
+                node = idx.iterator().next()
+                if node.get_element().get_key == k:
+                    node.get_element().set_value(v)
+    def remove(self, k): 
+        value = self.get_value(k)
+        if self.table[value] != None:
+            if type(self.table[value]) == list:
+                i = self.table[value].index(k)
+                self.table[value][i] = None
+            else:
+                self.table[value] = None
+        else:
+            raise NoSuchElementException
 
-    def remove(self, k): pass
+    def keys(self): 
+        result = SinglyLinkedList()
+        for index in self.table:
+            while index.iterator().has_next():
+                result.insert_last(index.iterator().next().get_key())
+        return result
 
-    def keys(self): pass
+    def values(self): 
+        result = SinglyLinkedList()
+        for index in self.table:
+            while index.iterator().has_next():
+                result.insert_last(index.iterator().next().get_value())
+        return result
 
-    def values(self): pass
-
-    def items(self): pass
+    def items(self): 
+        result = SinglyLinkedList()
+        for index in self.table:
+            while index.iterator().has_next():
+                result.insert_last(index.iterator().next())
+        return result
 
     def hash_function(self, k):
         return sum([ord(c) for c in k]) % self.array_size
