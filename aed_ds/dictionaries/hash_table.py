@@ -56,6 +56,7 @@ class HashTable(Dictionary):
                 node = idx.iterator().next()
                 if node.get_element().get_key == k:
                     node.get_element().set_value(v)
+                    
     def remove(self, k): 
         value = self.get_value(k)
         if self.table[value] != None:
